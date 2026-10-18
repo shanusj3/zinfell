@@ -1,26 +1,168 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-primary: #09475B;
+  --color-primary-dark: #063746;
+  --color-secondary: #3CB8C0;
+  --color-accent: #FF7200;
+  --color-bg-light: #151615;
+  --color-dark-navy: #061F2B;
+  --color-text-main: #FFFFFF;
+  --color-text-muted: #94A3B8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --color-teal-primary: #09475B;
+  --color-teal-dark: #063746;
+  --color-cyan-accent: #3CB8C0;
+  --color-orange-accent: #FF7200;
+  --color-canvas: #151615;
+  --color-navy-dark: #061F2B;
+  --color-slate-main: #FFFFFF;
+  --color-slate-muted: #94A3B8;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #151615;
+  color: #FFFFFF;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+::selection {
+  background-color: rgba(167, 139, 250, 0.35);
+  color: #FFFFFF;
+}
+
+::-moz-selection {
+  background-color: rgba(167, 139, 250, 0.35);
+  color: #FFFFFF;
+}
+
+/* Custom subtle scrollbar for scrollable panels */
+.faq-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(9, 71, 91, 0.2) rgba(9, 71, 91, 0.04);
+}
+
+.faq-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.faq-scroll-container::-webkit-scrollbar-track {
+  background: rgba(9, 71, 91, 0.04);
+  border-radius: 9999px;
+}
+
+.faq-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(9, 71, 91, 0.2);
+  border-radius: 9999px;
+}
+
+.faq-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(9, 71, 91, 0.35);
+}
+
+/* Custom subtle glassmorphism and glows */
+.glass-header {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.cyan-glow {
+  box-shadow: 0 0 25px -4px rgba(60, 184, 192, 0.35);
+}
+
+.orange-glow {
+  box-shadow: 0 0 20px -3px rgba(255, 114, 0, 0.4);
+}
+
+.teal-card-shadow {
+  box-shadow: 0 10px 30px -10px rgba(9, 71, 91, 0.08), 0 4px 12px -4px rgba(9, 71, 91, 0.04);
+}
+
+.teal-card-shadow-hover:hover {
+  box-shadow: 0 20px 40px -12px rgba(9, 71, 91, 0.16), 0 8px 20px -6px rgba(9, 71, 91, 0.08);
+}
+
+/* Subtle grid background */
+.bg-tech-grid {
+  background-size: 96px 96px;
+  background-position: center top;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Cg fill='none' stroke='%2309475B' stroke-opacity='0.08' stroke-width='1' stroke-dasharray='4 4'%3E%3Cpath d='M0 0.5H96'/%3E%3Cpath d='M0.5 0V96'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Dotted canvas background for automation workflow board */
+.bg-canvas-dots {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(9, 71, 91, 0.14) 1.2px, transparent 1.2px);
+}
+
+/* Subtle cyan treatment for highlighted headline words */
+.text-gradient-cyan {
+  background: linear-gradient(100deg, #09475B 0%, #3CB8C0 55%, #2a9aa3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hero entrance animation */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  opacity: 0;
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes orb-float {
+  0%, 100% { transform: translate(-50%, 0) scale(1); }
+  50% { transform: translate(-50%, 24px) scale(1.05); }
+}
+.hero-orb {
+  animation: orb-float 12s ease-in-out infinite;
+}
+
+/* Client logo marquee */
+@keyframes logo-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.logo-track {
+  animation: logo-scroll 35s linear infinite;
+}
+.logo-marquee:hover .logo-track {
+  animation-play-state: paused;
+}
+
+/* Integrations infinite horizontal ticker */
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 32s linear infinite;
+}
+.animate-marquee-left:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .hero-orb { animation: none; opacity: 1; }
+  .logo-track, .animate-marquee-left { animation: none; }
+}
+
+.bg-tech-grid-dark {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(60, 184, 192, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(60, 184, 192, 0.07) 1px, transparent 1px);
 }
