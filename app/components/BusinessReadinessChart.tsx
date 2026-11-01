@@ -2,7 +2,7 @@ import React from "react";
 
 export default function BusinessReadinessChart() {
   return (
-    <div className="relative w-full border border-[#38265a] bg-[#120b22] shadow-none">
+    <div className="relative w-full bg-slate-950/20 backdrop-blur-sm overflow-hidden">
       <svg
         viewBox="0 0 1000 520"
         className="w-full h-auto block select-none"
@@ -29,7 +29,7 @@ export default function BusinessReadinessChart() {
             </feMerge>
           </filter>
 
-          {/* Tech Background Grid */}
+          {/* Tech Background Grid (Frosted Glass etch) */}
           <pattern
             id="techGrid"
             width="36"
@@ -39,27 +39,27 @@ export default function BusinessReadinessChart() {
             <path
               d="M 36 0 L 0 0 0 36"
               fill="none"
-              stroke="#261742"
+              stroke="#ffffff"
               strokeWidth="0.8"
-              opacity="0.75"
+              opacity="0.08"
             />
           </pattern>
 
-          {/* Ambient Background Radial Gradient */}
+          {/* Ambient Frosted Glass Radial Light */}
           <radialGradient id="bgGlow" cx="72%" cy="38%" r="65%">
-            <stop offset="0%" stopColor="#2b1754" stopOpacity="0.45" />
-            <stop offset="65%" stopColor="#180e30" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#0f091f" stopOpacity="1" />
+            <stop offset="0%" stopColor="#A78BFA" stopOpacity="0.14" />
+            <stop offset="55%" stopColor="#38BDF8" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="#030712" stopOpacity="0.25" />
           </radialGradient>
 
           {/* Rising Line Gradient */}
           <linearGradient id="lineGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.85" />
-            <stop offset="100%" stopColor="#C4B5FD" stopOpacity="1" />
+            <stop offset="0%" stopColor="#A78BFA" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="1" />
           </linearGradient>
         </defs>
 
-        {/* Background Rect & Grid */}
+        {/* Translucent Frosted Glass Background & Subtle Grid */}
         <rect width="1000" height="520" fill="url(#bgGlow)" />
         <rect width="1000" height="520" fill="url(#techGrid)" />
 
@@ -85,7 +85,7 @@ export default function BusinessReadinessChart() {
           y1="70"
           x2="95"
           y2="440"
-          stroke="#36245c"
+          stroke="rgba(255,255,255,0.22)"
           strokeWidth="1.2"
         />
 
@@ -102,8 +102,8 @@ export default function BusinessReadinessChart() {
             <text
               x="80"
               y={item.y + 4}
-              fill="#C4B5FD"
-              opacity="0.8"
+              fill="#FFFFFF"
+              opacity="0.85"
               fontSize="12"
               fontWeight="500"
               textAnchor="end"
@@ -116,7 +116,7 @@ export default function BusinessReadinessChart() {
               y1={item.y}
               x2="95"
               y2={item.y}
-              stroke="#36245c"
+              stroke="rgba(255,255,255,0.22)"
               strokeWidth="1.2"
             />
           </g>
@@ -129,7 +129,7 @@ export default function BusinessReadinessChart() {
           y1="440"
           x2="940"
           y2="440"
-          stroke="#36245c"
+          stroke="rgba(255,255,255,0.22)"
           strokeWidth="1.2"
         />
 
@@ -142,21 +142,21 @@ export default function BusinessReadinessChart() {
         ].map((stage) => (
           <g key={stage.label}>
             {/* Dot on baseline */}
-            <circle cx={stage.x} cy="440" r="3" fill="#A78BFA" />
+            <circle cx={stage.x} cy="440" r="3.5" fill="#FFFFFF" opacity="0.9" />
             {/* Tick below baseline */}
             <line
               x1={stage.x}
               y1="440"
               x2={stage.x}
               y2="447"
-              stroke="#36245c"
+              stroke="rgba(255,255,255,0.22)"
               strokeWidth="1.2"
             />
             {/* Label text */}
             <text
               x={stage.x}
               y="475"
-              fill="#e2e8f0"
+              fill="#FFFFFF"
               fontSize="12"
               fontWeight="600"
               letterSpacing="0.14em"
@@ -175,7 +175,7 @@ export default function BusinessReadinessChart() {
           y1="330"
           x2="395"
           y2="440"
-          stroke="#3b2963"
+          stroke="rgba(255,255,255,0.18)"
           strokeWidth="1"
           strokeDasharray="3 3"
         />
@@ -185,7 +185,7 @@ export default function BusinessReadinessChart() {
           y1="230"
           x2="660"
           y2="440"
-          stroke="#3b2963"
+          stroke="rgba(255,255,255,0.18)"
           strokeWidth="1"
           strokeDasharray="3 3"
         />
@@ -195,7 +195,7 @@ export default function BusinessReadinessChart() {
           y1="145"
           x2="920"
           y2="440"
-          stroke="#3b2963"
+          stroke="rgba(255,255,255,0.18)"
           strokeWidth="1"
           strokeDasharray="3 3"
         />
@@ -267,40 +267,40 @@ export default function BusinessReadinessChart() {
         {/* ================= THE 3 FLOATING STAT CARDS ================= */}
         {/* Card 1: 2+ Countries Served */}
         <foreignObject x="195" y="265" width="185" height="72">
-          <div className="h-full border border-[#3d2766] bg-[#19102e]/95 px-4 py-2.5 shadow-none flex flex-col justify-center select-text">
-            <div className="text-[26px] font-bold text-[#A78BFA] leading-none tracking-tight">
+          <div className="h-full bg-white/[0.08] backdrop-blur-sm px-4 py-2.5 flex flex-col justify-center select-text">
+            <div className="text-[26px] font-bold text-white leading-none tracking-tight">
               2+
             </div>
-            <div className="text-[13px] font-bold text-white mt-1 leading-tight">
+            <div className="text-[13px] font-medium text-white mt-1 leading-tight">
               Countries Served
             </div>
-            <div className="w-6 h-[2px] bg-[#A78BFA] mt-1.5"></div>
+            <div className="w-6 h-[2px] bg-white/70 mt-1.5"></div>
           </div>
         </foreignObject>
 
         {/* Card 2: 10+ Projects Completed */}
         <foreignObject x="450" y="160" width="185" height="72">
-          <div className="h-full border border-[#3d2766] bg-[#19102e]/95 px-4 py-2.5 shadow-none flex flex-col justify-center select-text">
-            <div className="text-[26px] font-bold text-[#A78BFA] leading-none tracking-tight">
+          <div className="h-full bg-white/[0.08] backdrop-blur-sm px-4 py-2.5 flex flex-col justify-center select-text">
+            <div className="text-[26px] font-bold text-white leading-none tracking-tight">
               10+
             </div>
-            <div className="text-[13px] font-bold text-white mt-1 leading-tight">
+            <div className="text-[13px] font-medium text-white mt-1 leading-tight">
               Projects Completed
             </div>
-            <div className="w-6 h-[2px] bg-[#A78BFA] mt-1.5"></div>
+            <div className="w-6 h-[2px] bg-white/70 mt-1.5"></div>
           </div>
         </foreignObject>
 
         {/* Card 3: 100% Digital Craftsmanship */}
         <foreignObject x="700" y="65" width="185" height="72">
-          <div className="h-full border border-[#3d2766] bg-[#19102e]/95 px-4 py-2.5 shadow-none flex flex-col justify-center select-text">
-            <div className="text-[26px] font-bold text-[#A78BFA] leading-none tracking-tight">
+          <div className="h-full bg-white/[0.08] backdrop-blur-sm px-4 py-2.5 flex flex-col justify-center select-text">
+            <div className="text-[26px] font-bold text-white leading-none tracking-tight">
               100%
             </div>
-            <div className="text-[13px] font-bold text-white mt-1 leading-tight">
+            <div className="text-[13px] font-medium text-white mt-1 leading-tight">
               Digital Craftsmanship
             </div>
-            <div className="w-6 h-[2px] bg-[#A78BFA] mt-1.5"></div>
+            <div className="w-6 h-[2px] bg-white/70 mt-1.5"></div>
           </div>
         </foreignObject>
       </svg>

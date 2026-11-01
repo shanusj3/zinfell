@@ -20,6 +20,8 @@
   --color-navy-dark: #061F2B;
   --color-slate-main: #FFFFFF;
   --color-slate-muted: #94A3B8;
+  --animate-marquee-left: marquee-left 52s linear infinite;
+  --animate-marquee-right: marquee-right 52s linear infinite;
 }
 
 html {
@@ -27,20 +29,25 @@ html {
 }
 
 body {
-  background-color: #151615;
-  color: #FFFFFF;
-  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+  background-color: #FDFCFC;
+  color: #000000;
+  font-family: var(--font-sans), 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
   overflow-x: clip;
 }
 
+a {
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 ::selection {
-  background-color: rgba(167, 139, 250, 0.35);
-  color: #FFFFFF;
+  background-color: rgba(0, 0, 0, 0.12);
+  color: #000000;
 }
 
 ::-moz-selection {
-  background-color: rgba(167, 139, 250, 0.35);
-  color: #FFFFFF;
+  background-color: rgba(0, 0, 0, 0.12);
+  color: #000000;
 }
 
 /* Custom subtle scrollbar for scrollable panels */
@@ -121,6 +128,21 @@ body {
   animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+/* Sticky navbar slide down animation */
+@keyframes nav-slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.nav-sticky-slide-down {
+  animation: nav-slide-down 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @keyframes orb-float {
   0%, 100% { transform: translate(-50%, 0) scale(1); }
   50% { transform: translate(-50%, 24px) scale(1.05); }
@@ -141,7 +163,7 @@ body {
   animation-play-state: paused;
 }
 
-/* Integrations infinite horizontal ticker */
+/* Integrations & Testimonials infinite horizontal tickers */
 @keyframes marquee-left {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -149,15 +171,22 @@ body {
 .animate-marquee-left {
   display: flex;
   width: max-content;
-  animation: marquee-left 32s linear infinite;
+  animation: marquee-left 32s linear infinite !important;
 }
-.animate-marquee-left:hover {
-  animation-play-state: paused;
+
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 52s linear infinite !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .fade-up, .hero-orb { animation: none; opacity: 1; }
-  .logo-track, .animate-marquee-left { animation: none; }
+  .logo-track, .animate-marquee-left, .animate-marquee-right { animation: none; }
 }
 
 .bg-tech-grid-dark {
@@ -165,4 +194,81 @@ body {
   background-image: 
     linear-gradient(to right, rgba(60, 184, 192, 0.07) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(60, 184, 192, 0.07) 1px, transparent 1px);
+}
+
+/* ==========================================================================
+   Bulletproof Button Visibility Across All States & Visited Links
+   ========================================================================== */
+
+/* Black CTA Buttons */
+.btn-primary,
+a.btn-primary,
+button.btn-primary {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.btn-primary:link,
+.btn-primary:visited,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus,
+a.btn-primary:link,
+a.btn-primary:visited,
+a.btn-primary:hover,
+a.btn-primary:active,
+.btn-primary *,
+.btn-primary span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* White CTA Buttons */
+.btn-white,
+a.btn-white,
+button.btn-white {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+.btn-white:link,
+.btn-white:visited,
+.btn-white:hover,
+.btn-white:active,
+.btn-white:focus,
+a.btn-white:link,
+a.btn-white:visited,
+a.btn-white:hover,
+a.btn-white:active,
+.btn-white *,
+.btn-white span {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Outline CTA Buttons (White background with border) */
+.btn-outline,
+a.btn-outline,
+button.btn-outline {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #cbd5e1 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+.btn-outline:link,
+.btn-outline:visited,
+.btn-outline:hover,
+.btn-outline:active,
+.btn-outline:focus,
+a.btn-outline:link,
+a.btn-outline:visited,
+a.btn-outline:hover,
+a.btn-outline:active,
+.btn-outline *,
+.btn-outline span {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
 }

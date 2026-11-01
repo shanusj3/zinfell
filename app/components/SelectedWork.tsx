@@ -41,7 +41,7 @@ const PROJECTS: Project[] = [
       "A multi-tenant SaaS platform helping repair businesses manage tickets, customers, inventory, billing, warranties, and communication in one unified system.",
     tags: ["SaaS", "Product Development", "Automation"],
     cta: "View Case Study",
-    href: "https://zeviodesk.com",
+    href: "https://zeviodesk.com/",
     badge: "Flagship Product",
     preview: {
       type: "zeviodesk",
@@ -62,7 +62,7 @@ const PROJECTS: Project[] = [
       "A modern digital experience designed to help the business strengthen its online presence, attract high-intent leads, and scale digital operations.",
     tags: ["Web Design", "Development", "SEO"],
     cta: "View Case Study",
-    href: "#contact",
+    href: "/products",
     badge: "Client Project",
     preview: {
       type: "web",
@@ -83,7 +83,7 @@ const PROJECTS: Project[] = [
       "A tailored digital platform engineered around unique business processes, eliminating manual paperwork and automating multi-department handoffs.",
     tags: ["Software Development", "Backend", "Automation"],
     cta: "View Case Study",
-    href: "#contact",
+    href: "/products",
     badge: "Client Project",
     preview: {
       type: "software",
@@ -104,7 +104,7 @@ const PROJECTS: Project[] = [
       "A customer-focused mobile experience built for iOS and Android to simplify everyday interactions, service requests, and real-time alerts.",
     tags: ["Mobile", "UI/UX", "API Integration"],
     cta: "View Case Study",
-    href: "#contact",
+    href: "/products",
     badge: "Client Project",
     preview: {
       type: "mobile",
@@ -175,7 +175,7 @@ export default function SelectedWork() {
           <div className="shrink-0">
             <Link
               id="work-cta-all"
-              href="#contact"
+              href="/products"
               className="group inline-flex items-center gap-2 rounded-lg bg-[#A78BFA] px-5 py-2.5 text-sm font-semibold text-[#04161C] transition-all hover:bg-[#9065F8] hover:shadow-lg hover:shadow-[#A78BFA]/25"
             >
               View All Work

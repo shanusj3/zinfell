@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
 
 type WorkflowHighlight = {
   title: string;
@@ -18,6 +16,7 @@ type WorkflowItem = {
   shortDescription: string;
   highlights: WorkflowHighlight[];
   imageSrc: string;
+  bgImageSrc?: string;
   tags: string[];
 };
 
@@ -39,7 +38,8 @@ const WORKFLOW_ITEMS: WorkflowItem[] = [
       },
     ],
     tags: ["WhatsApp", "HubSpot", "Salesforce"],
-    imageSrc: "/AI-Powered Lead Automation Dashboard.avif",
+    imageSrc: "/workflow-lead-crm-v2.png",
+    bgImageSrc: "/workflow-card-bg-1.png",
   },
   {
     id: "whatsapp-ai-ticket",
@@ -58,7 +58,8 @@ const WORKFLOW_ITEMS: WorkflowItem[] = [
       },
     ],
     tags: ["WhatsApp", "Zendesk", "Slack"],
-    imageSrc: "/AI-Powered Support Automation Flow.avif",
+    imageSrc: "/workflow-whatsapp-assistant.png",
+    bgImageSrc: "/workflow-card-bg-green.png",
   },
   {
     id: "form-ai-database",
@@ -77,7 +78,8 @@ const WORKFLOW_ITEMS: WorkflowItem[] = [
       },
     ],
     tags: ["PostgreSQL", "Google Sheets", "Airtable"],
-    imageSrc: "/AI-Powered Document Workflow.avif",
+    imageSrc: "/workflow-form-database-v2.png",
+    bgImageSrc: "/workflow-card-bg-amber.png",
   },
   {
     id: "order-notification-team",
@@ -96,7 +98,8 @@ const WORKFLOW_ITEMS: WorkflowItem[] = [
       },
     ],
     tags: ["Shopify", "Stripe", "Webhooks"],
-    imageSrc: "/Purple Order Automation Dashboard.avif",
+    imageSrc: "/workflow-order-team-v2.png",
+    bgImageSrc: "/workflow-card-bg-4.png",
   },
 ];
 
@@ -120,248 +123,224 @@ const INTEGRATIONS = [
   { name: "n8n", imageSrc: "/integrations/n8n.png", color: "#FF4A00", letter: "N8" },
 ];
 
-const pad = (n: number) => String(n).padStart(2, "0");
-
 export default function AiAutomation() {
-  const [activeId, setActiveId] = useState(WORKFLOW_ITEMS[0].id);
-
-  // Track active card as cards stack at the top
-  useEffect(() => {
-    const handleScroll = () => {
-      // All cards dock at 7rem = 112px
-      const triggerThreshold = 135;
-      for (let i = WORKFLOW_ITEMS.length - 1; i >= 0; i--) {
-        const item = WORKFLOW_ITEMS[i];
-        const el = document.getElementById(`workflow-${item.id}`);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= triggerThreshold) {
-            setActiveId(item.id);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToItem = (id: string) => {
-    const el = document.getElementById(`workflow-${id}`);
-    if (el) {
-      const yOffset = -112; // all cards stick at 7rem = 112px
-      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-
   return (
     <section
       id="automation"
       aria-labelledby="automation-heading"
-      className="relative isolate overflow-x-clip bg-[#151615] py-20 lg:py-28 text-white"
+      className="relative isolate overflow-x-clip bg-[#FDFCFC] pt-20 lg:pt-28 pb-14 sm:pb-16 text-black"
     >
       {/* Background subtle grid */}
-      <div className="bg-tech-grid absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_70%_50%_at_50%_15%,black_25%,transparent_100%)] opacity-30" />
+      <div className="bg-tech-grid absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_70%_50%_at_50%_15%,black_20%,transparent_100%)] opacity-20" />
 
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="max-w-3xl text-left">
-          <h2
-            id="automation-heading"
-            className="text-2xl font-medium leading-[1.15] tracking-tight text-white sm:text-3xl lg:text-4xl"
-          >
-            What if your business could{" "}
-            <span className="text-[#A78BFA]">do more automatically?</span>
-          </h2>
-
-          <p className="mt-3 max-w-2xl text-sm sm:text-base leading-[1.7] text-[#94A3B8]">
-            Repetitive tasks slow teams down. Manual processes create errors. Disconnected systems make
-            simple operations complicated. Zinfell designs intelligent workflows that connect your systems,
-            automate repetitive work, and help your team operate more efficiently.
-          </p>
-
-          <div className="mt-7 flex justify-start">
-            <Link
-              id="automation-cta"
-              href="#contact"
-              className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#A78BFA] px-6 py-3 text-base font-semibold text-[#04161C] transition-all hover:bg-[#9065F8] hover:shadow-lg hover:shadow-[#A78BFA]/25"
+        {/* Header - Heading Left, Description Right (Matching Hero Structure) */}
+        <div className="grid grid-cols-1 items-end gap-6 lg:grid-cols-12 lg:gap-12">
+          {/* Left Column: Heading (All Black) */}
+          <div className="lg:col-span-7">
+            <h2
+              id="automation-heading"
+              className="text-3xl font-normal leading-[1.18] tracking-tight text-black sm:text-4xl lg:text-[2.75rem]"
             >
-              Automate Your Business
-              <ArrowRight
-                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                strokeWidth={2.4}
-                aria-hidden="true"
-              />
-            </Link>
+              What if your business could<br className="hidden sm:inline" /> do more automatically?
+            </h2>
+          </div>
+
+          {/* Right Column: Description aligned to bottom baseline */}
+          <div className="lg:col-span-5">
+            <p
+              id="automation-description"
+              className="max-w-lg text-[14px] leading-[1.6] text-black sm:text-[14.5px] lg:text-[15.5px]"
+            >
+              Repetitive tasks slow teams down. Manual processes create errors. Disconnected systems make simple operations complicated. Zinfell designs intelligent workflows that connect your systems, automate repetitive work, and help your team operate more efficiently.
+            </p>
           </div>
         </div>
 
-        {/* Sticky Sidebar + True Column Stacking Cards */}
-        <div className="mt-12 lg:mt-16 flex flex-col lg:flex-row gap-8 lg:gap-10 items-start relative">
-          {/* Left Sticky Sidebar (Desktop) */}
-          <div className="hidden lg:block w-72 lg:w-80 shrink-0 sticky top-28 self-start z-30">
-            <div className="rounded-none border border-white/10 bg-[#1A1C1A]/95 p-3 shadow-none">
-              <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-[#A78BFA]/90">
-                Workflows
-              </div>
-              <div className="mt-1 flex flex-col gap-1.5">
-                {WORKFLOW_ITEMS.map((item, idx) => {
-                  const isActive = item.id === activeId;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => scrollToItem(item.id)}
-                      className={`group flex w-full items-center gap-2.5 rounded-none px-2.5 py-2.5 text-left transition-all duration-200 cursor-pointer ${isActive
-                        ? "border border-[#A78BFA] bg-[#A78BFA]/10 text-white"
-                        : "border border-transparent text-white/60 hover:bg-white/5 hover:text-white"
-                        }`}
-                    >
-                      <span
-                        className={`flex h-9 w-10 shrink-0 items-center justify-center rounded-none text-base font-mono font-bold transition-colors ${isActive
-                          ? "bg-[#A78BFA] text-[#04161C]"
-                          : "bg-white/10 text-white/60 group-hover:bg-white/15 group-hover:text-white"
-                          }`}
-                      >
-                        {pad(idx + 1)}
-                      </span>
-                      <span className="min-w-0 flex-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs sm:text-[13px] font-semibold tracking-tight leading-snug">
-                        {item.shortLabel.split("→").map((part, pIdx, arr) => (
-                          <span key={pIdx} className="inline-flex items-center gap-1">
-                            <span>{part.trim()}</span>
-                            {pIdx < arr.length - 1 && (
-                              <span className="text-[#A78BFA] text-[11px] font-bold select-none">→</span>
-                            )}
-                          </span>
-                        ))}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+        {/* Action Button directly below - Hero Button Style */}
+        <div className="mt-6 sm:mt-7 flex flex-wrap items-center gap-3.5">
+          <Link
+            id="automation-cta"
+            href="/contact"
+            className="btn-primary inline-flex items-center justify-center rounded-full bg-black px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-base font-medium text-white transition-all hover:bg-slate-800 hover:shadow-lg hover:-translate-y-0.5 shadow-md cursor-pointer"
+            style={{ color: "#ffffff" }}
+          >
+            <span style={{ color: "#ffffff", WebkitTextFillColor: "#ffffff" }}>Automate your business</span>
+          </Link>
+        </div>
 
-          {/* Right Column: Independent Cards Stack in Column with Gaps */}
-          <div className="flex-1 min-w-0 flex flex-col relative pb-0">
-            {WORKFLOW_ITEMS.map((item, idx) => (
-              <div key={item.id} className="contents">
-                <div
-                  id={`workflow-${item.id}`}
-                  style={{
-                    top: "7rem",
-                    zIndex: 10 + idx,
-                  }}
-                  className="sticky w-full h-[520px] md:h-[400px] lg:h-[415px] rounded-none border border-white/15 bg-[#141614] p-4 sm:p-5 shadow-none"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 h-full items-stretch">
-                    {/* Left: Workflow Dashboard Image */}
-                    <div className="relative h-full w-full flex items-center justify-center overflow-hidden rounded-none border border-white/10 bg-[#9F8DFA] shadow-inner">
+        {/* Column Stacking Cards */}
+        <div className="mt-12 lg:mt-16 flex flex-col relative pb-0">
+          {WORKFLOW_ITEMS.map((item, idx) => (
+            <div key={item.id} className="contents">
+              <div
+                id={`workflow-${item.id}`}
+                style={{
+                  top: "7rem",
+                  zIndex: 10 + idx,
+                }}
+                className="sticky w-full min-h-[380px] lg:h-[400px] rounded-2xl sm:rounded-3xl lg:rounded-[28px] overflow-hidden border border-white/20 shadow-none relative"
+              >
+                {/* Card Gradient Background + Film Grain Texture */}
+                <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none select-none">
+                  <Image
+                    src={item.bgImageSrc || "/workflow-card-bg-1.png"}
+                    alt="Workflow background gradient"
+                    fill
+                    sizes="(max-width: 1280px) 100vw, 1280px"
+                    className="object-cover object-center select-none"
+                    priority={idx === 0}
+                  />
+                  {/* Film Grain Texture Overlay */}
+                  <svg
+                    className="absolute inset-0 h-full w-full opacity-65 mix-blend-overlay pointer-events-none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <filter id={`workflow-card-grain-${item.id}`}>
+                      <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.8"
+                        numOctaves="4"
+                        stitchTiles="stitch"
+                      />
+                      <feColorMatrix type="saturate" values="0" />
+                    </filter>
+                    <rect width="100%" height="100%" filter={`url(#workflow-card-grain-${item.id})`} />
+                  </svg>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 h-full items-center p-5 pt-10 sm:p-8 lg:p-10 gap-5 sm:gap-6 lg:gap-8 relative z-10">
+                  {/* Left Column: Text Information with added top margin on mobile */}
+                  <div className="lg:col-span-5 flex flex-col justify-center text-white pt-2 sm:pt-0">
+                    {/* Title - Matching Hero Heading Font Weight (font-normal) and Tracking */}
+                    <h3 className="flex flex-wrap items-center gap-x-2 text-2xl sm:text-3xl lg:text-[2.35rem] font-normal leading-[1.18] tracking-tight text-white mt-1 sm:mt-0">
+                      {item.title.split("→").map((part, pIdx, arr) => (
+                        <span key={pIdx} className="inline-flex items-center gap-1.5">
+                          <span>{part.trim()}</span>
+                          {pIdx < arr.length - 1 && (
+                            <span className="text-white font-mono font-normal">→</span>
+                          )}
+                        </span>
+                      ))}
+                    </h3>
+
+                    {/* Short Description - Matching Hero Description font size and leading */}
+                    <p className="mt-2.5 text-[14px] sm:text-[14.5px] lg:text-[15px] leading-[1.6] text-white font-normal">
+                      {item.shortDescription}
+                    </p>
+
+                    {/* Bullet Highlights - Pure white, hero-aligned font sizes */}
+                    <ul className="mt-4 space-y-2 text-[13px] sm:text-[13.5px] lg:text-[14px] leading-relaxed text-white">
+                      {item.highlights.map((h, hIdx) => (
+                        <li key={hIdx} className="flex items-start gap-2.5">
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-white" />
+                          <span>
+                            <strong className="font-medium text-white">{h.title}: </strong>
+                            <span className="text-white font-normal">{h.text}</span>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Right Column: Workflow Diagram Graphic (Enlarged on mobile) */}
+                  <div className="lg:col-span-7 relative h-[225px] sm:h-[280px] lg:h-full w-full flex items-center justify-center">
+                    <div className="relative w-full h-full max-h-[360px] flex items-center justify-center">
                       <Image
                         src={item.imageSrc}
                         alt={item.title}
                         fill
-                        sizes="(max-width: 768px) 100vw, 550px"
-                        className="object-contain object-center select-none"
+                        sizes="(max-width: 1024px) 100vw, 720px"
+                        className="object-contain object-center select-none scale-[1.16] sm:scale-100 origin-center"
                         priority={idx === 0}
                       />
                     </div>
-
-                    {/* Right: Text Content (without footer) */}
-                    <div className="h-full flex flex-col justify-center p-2 sm:p-5">
-                      <div>
-                        {/* Number Badge */}
-                        <div className="inline-flex w-fit items-center justify-center rounded-none border border-[#A78BFA]/30 bg-[#A78BFA]/10 px-2.5 py-0.5 text-[11px] font-mono font-bold text-[#A78BFA]">
-                          {pad(idx + 1)}
-                        </div>
-
-                        {/* Title */}
-                        <h3 className="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight">
-                          {item.title.split("→").map((part, pIdx, arr) => (
-                            <span key={pIdx} className="inline-flex items-center gap-1.5">
-                              <span>{part.trim()}</span>
-                              {pIdx < arr.length - 1 && (
-                                <span className="text-[#A78BFA] font-mono font-bold">→</span>
-                              )}
-                            </span>
-                          ))}
-                        </h3>
-
-                        {/* Short Description */}
-                        <p className="mt-2 text-sm sm:text-base leading-relaxed text-[#CBD5E1]">
-                          {item.shortDescription}
-                        </p>
-
-                        {/* Bullet Highlights */}
-                        <ul className="mt-4 space-y-2">
-                          {item.highlights.map((h, hIdx) => (
-                            <li key={hIdx} className="flex items-start gap-2.5 text-xs sm:text-[13px] text-[#CBD5E1]">
-                              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-none bg-[#A78BFA]" />
-                              <span>
-                                <strong className="font-semibold text-white">{h.title}: </strong>
-                                <span className="text-[#94A3B8]">{h.text}</span>
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
                   </div>
                 </div>
-
-                {/* Vertical spacer between cards (20px gap) */}
-                {idx < WORKFLOW_ITEMS.length - 1 && (
-                  <div className="h-[20px] shrink-0" aria-hidden="true" />
-                )}
               </div>
-            ))}
-          </div>
+
+              {/* Vertical spacer between cards (20px gap) */}
+              {idx < WORKFLOW_ITEMS.length - 1 && (
+                <div className="h-[20px] shrink-0" aria-hidden="true" />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 500+ Integrations Section */}
+      <div className="mt-16 sm:mt-20 lg:mt-24">
+        {/* Header: Title outside the framed box (matching 'Trusted by leading businesses' style) */}
+        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 mb-4 sm:mb-5">
+          <h3
+            id="integrations-heading"
+            className="text-xs sm:text-[13px] font-normal tracking-tight text-black/75"
+          >
+            Connects seamlessly with your existing stack & 500+ APIs
+          </h3>
         </div>
 
-        {/* 500+ Integrations Infinite Scrolling Marquee */}
-        <div className="mt-14 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#94A3B8]">
-            Connects seamlessly with your existing stack & 500+ APIs
-          </p>
+        {/* Framed Section with continuous horizontal lines and corner circle dots (matching Clients section UI) */}
+        <div className="relative w-full border-y border-black/10">
+          <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+            {/* Left & Right vertical bounding borders with 4 corner circle dots */}
+            <div className="relative border-x border-black/10 py-10 sm:py-12 lg:py-14">
+              {/* Top-Left Circle Dot */}
+              <span
+                className="absolute -top-[3px] -left-[3px] h-1.5 w-1.5 rounded-full bg-black pointer-events-none select-none"
+                aria-hidden="true"
+              />
+              {/* Top-Right Circle Dot */}
+              <span
+                className="absolute -top-[3px] -right-[3px] h-1.5 w-1.5 rounded-full bg-black pointer-events-none select-none"
+                aria-hidden="true"
+              />
+              {/* Bottom-Left Circle Dot */}
+              <span
+                className="absolute -bottom-[3px] -left-[3px] h-1.5 w-1.5 rounded-full bg-black pointer-events-none select-none"
+                aria-hidden="true"
+              />
+              {/* Bottom-Right Circle Dot */}
+              <span
+                className="absolute -bottom-[3px] -right-[3px] h-1.5 w-1.5 rounded-full bg-black pointer-events-none select-none"
+                aria-hidden="true"
+              />
 
-          <div className="relative mt-8 overflow-hidden py-2 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-            <div className="animate-marquee-left flex items-center gap-3">
-              {[...INTEGRATIONS, ...INTEGRATIONS].map((app, idx) => (
-                <div
-                  key={`${app.name}-${idx}`}
-                  className="group flex shrink-0 items-center gap-2.5 rounded-none border border-white/10 bg-[#151615] px-4 py-2.5 transition-colors duration-200 hover:border-[#A78BFA]/40 hover:bg-white/5 cursor-default"
-                >
-                  {app.imageSrc ? (
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-none">
-                      <Image
-                        src={app.imageSrc}
-                        alt={app.name}
-                        width={28}
-                        height={28}
-                        className="h-full w-full object-contain"
-                      />
-                    </div>
-                  ) : (
-                    <div
-                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-none text-[11px] font-extrabold text-white"
-                      style={{ backgroundColor: app.color }}
-                    >
-                      {app.letter}
-                    </div>
-                  )}
-                  <div className="text-left">
-                    <p className="text-xs font-bold text-white whitespace-nowrap group-hover:text-[#A78BFA] transition-colors">
+              <div className="relative overflow-hidden py-2 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+                <div className="animate-marquee-left flex items-center gap-3">
+                {[...INTEGRATIONS, ...INTEGRATIONS].map((app, idx) => (
+                  <div
+                    key={`${app.name}-${idx}`}
+                    className="flex shrink-0 items-center gap-3 px-6 sm:px-8 grayscale opacity-50 select-none cursor-pointer transition-all duration-300 hover:grayscale-0 hover:opacity-100"
+                  >
+                    {app.imageSrc ? (
+                      <div className="relative h-6 w-6 sm:h-7 sm:w-7 shrink-0">
+                        <Image
+                          src={app.imageSrc}
+                          alt={app.name}
+                          width={28}
+                          height={28}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className="flex h-6 w-6 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-md text-[10px] font-bold text-white shadow-2xs"
+                        style={{ backgroundColor: app.color }}
+                      >
+                        {app.letter}
+                      </div>
+                    )}
+                    <span className="text-sm sm:text-[15px] font-medium tracking-tight text-black whitespace-nowrap">
                       {app.name}
-                    </p>
+                    </span>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

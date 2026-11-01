@@ -1,180 +1,161 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
-/* Deterministic star field (seeded) so SSR and client markup match */
-function seededRandom(seed: number) {
-  let s = seed;
-  return () => {
-    s = (s * 1664525 + 1013904223) % 4294967296;
-    return s / 4294967296;
-  };
-}
+/* Pre-compute concentric wavy contour rings matching ElevenLabs audio-topographic aesthetic */
+const WAVY_RINGS: string[] = (() => {
+  const cx = 600;
+  const cy = 400;
+  const radii = [
+    30, 58, 90, 126, 166, 210, 258, 310, 366, 426,
+    490, 560, 635, 715, 800, 890, 985, 1085, 1190, 1300
+  ];
 
-function makeStars(seed: number, count: number, dim: number, maxSize: number) {
-  const rand = seededRandom(seed);
-  return Array.from({ length: count }, () => {
-    const big = rand() > 0.92;
-    return {
-      left: (rand() * 100).toFixed(2),
-      top: (rand() * 100).toFixed(2),
-      size: (big ? (2 + rand()) * maxSize : (1 + rand() * 0.8) * maxSize).toFixed(1),
-      opacity: ((big ? 0.85 + rand() * 0.15 : 0.3 + rand() * 0.5) * dim).toFixed(2),
-      delay: (rand() * 6).toFixed(1),
-      twinkle: rand() > 0.6,
-    };
+  return radii.map((r) => {
+    const points: string[] = [];
+    const steps = 180;
+    for (let i = 0; i <= steps; i++) {
+      const angle = (i / steps) * 2 * Math.PI;
+      // 4-corner rounded squircle modulation
+      const corner = 1 + 0.08 * Math.cos(4 * angle);
+      // High-frequency acoustic ripple wave (32 oscillations)
+      const wave = Math.sin(32 * angle) * (2.8 + (r / 300) * 3.2);
+      const radius = r * corner + wave;
+      const x = (cx + radius * Math.cos(angle)).toFixed(1);
+      const y = (cy + radius * Math.sin(angle)).toFixed(1);
+      points.push(`${i === 0 ? "M" : "L"} ${x} ${y}`);
+    }
+    points.push("Z");
+    return points.join(" ");
   });
-}
+})();
 
-// 3 Layers of twinkling stars matching Hero space style
-const STARS = makeStars(9876543, 90, 1, 1);
-const STARS_FAINT = makeStars(1234567, 80, 0.45, 0.8);
-const STARS_DIM = makeStars(5555555, 120, 0.25, 0.7);
+export type FinalCtaProps = {
+  title?: React.ReactNode;
+  description?: string;
+  buttonText?: string;
+  buttonHref?: string;
+  id?: string;
+  border?: boolean;
+};
 
-export default function FinalCta() {
+export default function FinalCta({
+  title = (
+    <>
+      Have an idea?<br className="hidden sm:inline" /> Let&apos;s turn it into reality.
+    </>
+  ),
+  description,
+  buttonText = "Start a project",
+  buttonHref = "/contact",
+  id = "contact",
+  border = false,
+}: FinalCtaProps = {}) {
   return (
     <section
-      id="contact"
+      id={id}
       aria-labelledby="cta-heading"
-      className="relative isolate w-full overflow-hidden bg-[#0B0814] py-16 sm:py-24 lg:py-28 min-h-screen min-h-[100dvh] sm:min-h-[580px] lg:min-h-[620px] flex items-center border-t border-white/10"
+      className={`relative isolate w-full overflow-hidden py-24 sm:py-32 lg:py-36 min-h-[500px] lg:min-h-[560px] flex items-center justify-center text-white ${
+        border ? "border-t border-black/10" : ""
+      }`}
     >
-      {/* Background Layer 1: Cosmic deep space violet gradient */}
-      <div className="absolute inset-0 -z-30 bg-gradient-to-b from-[#07050E] via-[#0D091B] to-[#180E2E]" />
-
-      {/* Background Layer 2: Cosmic nebula / soft violet glow with reduced opacity */}
-      <div className="pointer-events-none absolute inset-0 -z-20 opacity-50 bg-[radial-gradient(ellipse_75%_40%_at_50%_100%,rgba(167,139,250,0.14)_0%,rgba(124,58,237,0.06)_45%,transparent_100%)]" />
-      <div className="pointer-events-none absolute right-0 top-1/4 -z-20 h-[380px] w-[380px] rounded-full opacity-40 bg-[radial-gradient(circle,rgba(167,139,250,0.12)_0%,transparent_70%)] blur-[90px]" />
-
-      {/* Background Layer 3: Star Field Layer 1 */}
-      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        {STARS.map((star, i) => (
-          <span
-            key={`star-1-${i}`}
-            className={`absolute rounded-full bg-white ${star.twinkle ? "animate-pulse" : ""}`}
-            style={{
-              left: `${star.left}%`,
-              top: `${star.top}%`,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              opacity: star.opacity,
-              animationDelay: `${star.delay}s`,
-              animationDuration: "4s",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Background Layer 4: Star Field Layer 2 (fainter, smaller) */}
-      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        {STARS_FAINT.map((star, i) => (
-          <span
-            key={`star-2-${i}`}
-            className={`absolute rounded-full bg-white ${star.twinkle ? "animate-pulse" : ""}`}
-            style={{
-              left: `${star.left}%`,
-              top: `${star.top}%`,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              opacity: star.opacity,
-              animationDelay: `${star.delay}s`,
-              animationDuration: "5s",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Background Layer 5: Star Field Layer 3 (tiny faint stars) */}
-      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        {STARS_DIM.map((star, i) => (
-          <span
-            key={`star-3-${i}`}
-            className={`absolute rounded-full bg-white ${star.twinkle ? "animate-pulse" : ""}`}
-            style={{
-              left: `${star.left}%`,
-              top: `${star.top}%`,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              opacity: star.opacity,
-              animationDelay: `${star.delay}s`,
-              animationDuration: "6s",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Astronaut on Cliff - Proportional to section height */}
+      {/* 1. Iridescent Violet, Pink, Sky-Blue & Peach Atmospheric Gradient */}
       <div
-        className="pointer-events-none absolute bottom-0 right-0 z-0 w-[320px] sm:w-[460px] md:w-[560px] lg:w-[640px] xl:w-[700px] select-none"
-        aria-hidden="true"
-      >
-        <Image
-          src="/Purple-lit Astronaut on Rocky Ledge.png"
-          alt="Astronaut seated on rocky ledge gazing into space"
-          width={1601}
-          height={982}
-          priority
-          className="w-full h-auto object-contain object-bottom-right"
-        />
-      </div>
-
-      {/* Soft left gradient scrim for mobile to ensure text contrast over any rock overlap */}
-      <div
-        className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-full max-w-lg bg-gradient-to-r from-[#0B0814]/90 via-[#0B0814]/60 to-transparent lg:hidden"
-        aria-hidden="true"
+        className="absolute inset-0 -z-30 w-full h-full pointer-events-none select-none"
+        style={{
+          backgroundColor: "#130926",
+          backgroundImage: `
+            radial-gradient(ellipse 70% 60% at 76% 24%, rgba(244, 114, 182, 0.9) 0%, rgba(217, 70, 239, 0.72) 36%, transparent 72%),
+            radial-gradient(ellipse 75% 65% at 80% 68%, rgba(56, 189, 248, 0.92) 0%, rgba(96, 165, 250, 0.82) 38%, rgba(129, 140, 248, 0.45) 62%, transparent 78%),
+            radial-gradient(ellipse 70% 60% at 22% 32%, rgba(139, 92, 246, 0.94) 0%, rgba(124, 58, 237, 0.8) 40%, transparent 75%),
+            radial-gradient(ellipse 65% 55% at 18% 78%, rgba(251, 146, 60, 0.85) 0%, rgba(244, 63, 94, 0.7) 35%, transparent 68%),
+            radial-gradient(ellipse 80% 65% at 50% 50%, rgba(167, 139, 250, 0.65) 0%, rgba(192, 132, 252, 0.4) 45%, transparent 75%),
+            radial-gradient(ellipse 90% 70% at 50% 96%, rgba(30, 10, 60, 0.96) 0%, rgba(19, 9, 38, 0.98) 75%),
+            linear-gradient(135deg, #3b0764 0%, #581c87 25%, #6b21a8 48%, #4338ca 75%, #1e1b4b 100%)
+          `,
+        }}
       />
 
-      {/* Main Content - Full Width Grid, Left Aligned with other section typography */}
-      <div className="relative z-10 mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl text-left">
-          {/* Main Heading - Matching Other Sections' Size & Weight */}
-          <h2
-            id="cta-heading"
-            className="text-2xl font-medium leading-[1.15] tracking-tight text-white sm:text-3xl lg:text-4xl"
+      {/* 2. Authentic Film Grain Texture Overlay */}
+      <svg
+        className="absolute inset-0 h-full w-full opacity-60 mix-blend-overlay pointer-events-none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <filter id="final-cta-grain">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.8"
+            numOctaves="4"
+            stitchTiles="stitch"
+          />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#final-cta-grain)" />
+      </svg>
+
+      {/* 3. Mathematical SVG Wavy Contour Rings & Crosshair Grid - Masked out in center behind text */}
+      <div
+        className="absolute inset-0 h-full w-full pointer-events-none select-none"
+        style={{
+          maskImage: "radial-gradient(ellipse 55% 50% at 50% 50%, transparent 0%, transparent 28%, black 65%)",
+          WebkitMaskImage: "radial-gradient(ellipse 55% 50% at 50% 50%, transparent 0%, transparent 28%, black 65%)",
+        }}
+      >
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          {/* Subtle coordinate crosshair axes */}
+          <g stroke="white" strokeOpacity="0.12" strokeWidth="1" strokeDasharray="3 4">
+            <line x1="600" y1="0" x2="600" y2="800" />
+            <line x1="0" y1="400" x2="1200" y2="400" />
+            <line x1="0" y1="0" x2="1200" y2="800" strokeOpacity="0.05" />
+            <line x1="0" y1="800" x2="1200" y2="0" strokeOpacity="0.05" />
+          </g>
+
+          {/* Concentric Wavy Ripple Shapes */}
+          <g fill="none" stroke="white" strokeWidth="1">
+            {WAVY_RINGS.map((d, idx) => (
+              <path
+                key={idx}
+                d={d}
+                strokeOpacity={0.14 + (idx % 2 === 0 ? 0.06 : 0.02)}
+              />
+            ))}
+          </g>
+        </svg>
+      </div>
+
+      {/* 4. Minimal Centered Content - Heading and Button Only (Clear of SVG background shapes) */}
+      <div className="relative z-10 mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+        {/* Main Headline */}
+        <h2
+          id="cta-heading"
+          className="max-w-2xl text-3xl font-normal leading-[1.18] tracking-tight text-white sm:text-4xl lg:text-[2.75rem] drop-shadow-sm"
+        >
+          {title}
+        </h2>
+
+        {description && (
+          <p className="mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-white/80">
+            {description}
+          </p>
+        )}
+
+        {/* Single Clean Action Button without arrow */}
+        <div className="mt-8 sm:mt-9">
+          <Link
+            id="final-cta-start-project"
+            href={buttonHref}
+            className="btn-white inline-flex items-center justify-center rounded-full bg-white px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-base font-medium text-black transition-all hover:bg-slate-100 hover:shadow-lg hover:-translate-y-0.5 shadow-md"
+            style={{ color: "#000000" }}
           >
-            Have an idea?{" "}
-            <span className="text-[#A78BFA]">Let&apos;s turn it into reality.</span>
-          </h2>
-
-          {/* Description Paragraph - Matching Other Sections' Text Size & Color */}
-          <p className="mt-4 max-w-xl text-sm sm:text-base leading-[1.7] text-[#94A3B8]">
-            Whether you&apos;re starting something new, modernizing an existing system, or looking for smarter ways to operate, Zinfell is ready to build with you.
-          </p>
-
-          {/* Action Buttons */}
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-            {/* Primary Button */}
-            <Link
-              id="final-cta-start-project"
-              href="#contact"
-              className="group inline-flex items-center justify-center gap-2 rounded-none bg-[#A78BFA]/90 px-6 py-3.5 text-sm font-semibold text-[#04161C] transition-all hover:bg-[#A78BFA]"
-            >
-              <span>Start a Project</span>
-              <ArrowRight
-                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                strokeWidth={2.4}
-              />
-            </Link>
-
-            {/* Secondary Button */}
-            <Link
-              id="final-cta-talk-expert"
-              href="#contact"
-              className="group inline-flex items-center justify-center gap-2 rounded-none border border-white/20 bg-white/[0.04] backdrop-blur-md px-6 py-3.5 text-sm font-semibold text-white transition-all hover:border-white/40 hover:bg-white/10"
-            >
-              <span>Talk to an Expert</span>
-              <ArrowRight
-                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                strokeWidth={2.2}
-              />
-            </Link>
-          </div>
-
-          {/* Supporting Microcopy */}
-          <p className="mt-4 text-xs text-white/50 sm:text-sm">
-            Tell us what you&apos;re building. We&apos;ll help you figure out what comes next.
-          </p>
+            <span style={{ color: "#000000", WebkitTextFillColor: "#000000" }}>{buttonText}</span>
+          </Link>
         </div>
       </div>
     </section>

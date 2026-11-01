@@ -1,32 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
-const sfPro = localFont({
-  src: [
-    {
-      path: "./fonts/sf-pro-text_regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/sf-pro-text_semibold.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "./fonts/sf-pro-text_semibold.woff2",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "./fonts/sf-pro-display_semibold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+const inter = Inter({
+  subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -57,12 +39,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${sfPro.variable} scroll-smooth`}>
+    <html lang="en" className={`${inter.variable} scroll-smooth`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#151615] text-white selection:bg-[#A78BFA]/30 selection:text-white">
-        {children}
+      <body
+        className="min-h-screen flex flex-col bg-[#FDFCFC] text-black selection:bg-black/15 selection:text-black font-sans antialiased"
+        suppressHydrationWarning
+      >
+        <Navbar />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

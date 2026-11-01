@@ -2,34 +2,21 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Mail } from "lucide-react";
-
-const SOLUTIONS = [
-  { label: "Web Development", href: "#solutions" },
-  { label: "Mobile Development", href: "#solutions" },
-  { label: "AI Development", href: "#solutions" },
-  { label: "Business Automation", href: "#solutions" },
-  { label: "UI/UX Design", href: "#solutions" },
-  { label: "SEO", href: "#solutions" },
-  { label: "Digital Marketing", href: "#solutions" },
-];
+import { Mail } from "lucide-react";
 
 const PRODUCTS = [
   {
     name: "Zeviodesk",
-    href: "#zeviodesk",
+    href: "https://zeviodesk.com/",
     description: "Repair Business Management Platform",
-    badge: null,
   },
 ];
 
 const COMPANY = [
-  { label: "About", href: "#why-zinfell" },
-  { label: "Our Process", href: "#process" },
-  { label: "Work", href: "#work" },
-  { label: "Careers", href: "#careers" },
-  { label: "Insights", href: "#insights" },
-  { label: "Contact", href: "#contact" },
+  { label: "Solutions", href: "/solutions" },
+  { label: "About", href: "/about" },
+  { label: "Our Process", href: "/process" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const SOCIAL_LINKS = [
@@ -77,14 +64,14 @@ export default function Footer() {
   return (
     <footer
       id="footer"
-      className="relative isolate overflow-hidden border-t border-white/10 bg-[#151615] text-white"
+      className="relative isolate overflow-hidden border-t border-black/10 bg-[#FDFCFC] text-black"
       aria-label="Footer"
     >
       {/* Main Footer Content */}
-      <div className="mx-auto max-w-[1280px] px-4 pt-20 lg:pt-28 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1280px] px-4 pt-16 sm:pt-20 lg:pt-24 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 lg:gap-8">
           {/* Column 1: Brand Info */}
-          <div className="space-y-5 sm:col-span-2 md:col-span-4 lg:col-span-4 lg:pr-8">
+          <div className="space-y-4 sm:col-span-2 md:col-span-4 lg:col-span-5 lg:pr-8">
             <Link
               href="/"
               id="footer-logo"
@@ -94,23 +81,23 @@ export default function Footer() {
               <Image
                 src="/zinfell-white-transparent-cropped.avif"
                 alt="Zinfell"
-                width={100}
-                height={32}
-                className="h-[22px] sm:h-[24px] w-auto object-contain"
+                width={80}
+                height={25}
+                className="h-[17px] sm:h-[19px] w-auto object-contain brightness-0"
               />
             </Link>
 
-            <p className="text-sm font-medium text-white/90">
+            <p className="text-sm font-normal text-black">
               Digital solutions for businesses ready to grow.
             </p>
 
-            <p className="max-w-sm text-sm leading-relaxed text-[#94A3B8]">
+            <p className="max-w-sm text-xs sm:text-[13px] leading-relaxed text-black/60 font-normal">
               We build digital products, intelligent systems, and technology solutions that help businesses work smarter and grow faster.
             </p>
 
             {/* Connect / Social Icons */}
             <div className="pt-2">
-              <p className="text-xs font-mono font-medium uppercase tracking-[0.2em] text-white/50">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                 CONNECT
               </p>
               <div className="mt-3 flex items-center gap-2.5">
@@ -121,7 +108,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Follow Zinfell on ${item.name}`}
-                    className="flex h-9 w-9 items-center justify-center rounded-none border border-white/10 bg-[#1C1E1C] text-white/70 transition-all duration-200 hover:border-white/30 hover:bg-white/10 hover:text-white"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white text-black/70 transition-all duration-200 hover:border-black/30 hover:bg-black/5 hover:text-black shadow-2xs"
                   >
                     {item.icon}
                   </a>
@@ -130,52 +117,24 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Solutions */}
-          <div className="space-y-4 lg:col-span-2">
-            <p className="text-xs font-mono font-medium uppercase tracking-[0.2em] text-[#A78BFA]">
-              SOLUTIONS
-            </p>
-            <ul className="space-y-2.5 text-sm">
-              {SOLUTIONS.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="text-[#94A3B8] transition-colors duration-200 hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: Products */}
-          <div className="space-y-4 lg:col-span-2">
-            <p className="text-xs font-mono font-medium uppercase tracking-[0.2em] text-[#A78BFA]">
+          {/* Column 2: Products */}
+          <div className="space-y-4 lg:col-span-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               PRODUCTS
             </p>
-            <ul className="space-y-4 text-sm">
+            <ul className="space-y-4 text-xs sm:text-[13px]">
               {PRODUCTS.map((item) => (
                 <li key={item.name} className="group">
-                  <div className="flex items-center gap-2">
-                    {item.badge ? (
-                      <span className="font-medium text-white/90">{item.name}</span>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        className="font-medium text-white/90 transition-colors group-hover:text-[#A78BFA]"
-                      >
-                        {item.name}
-                      </Link>
-                    )}
-                    {item.badge && (
-                      <span className="inline-block rounded-none border border-white/20 bg-white/5 px-2 py-0.5 text-[10px] font-mono text-white/80">
-                        {item.badge}
-                      </span>
-                    )}
-                  </div>
+                  <Link
+                    href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="font-medium text-black transition-colors hover:text-slate-700"
+                  >
+                    {item.name}
+                  </Link>
                   {item.description && (
-                    <p className="mt-1 text-xs leading-relaxed text-[#94A3B8]/70 group-hover:text-[#94A3B8]">
+                    <p className="mt-1 text-xs leading-relaxed text-black/55 font-normal">
                       {item.description}
                     </p>
                   )}
@@ -186,15 +145,15 @@ export default function Footer() {
 
           {/* Column 4: Company */}
           <div className="space-y-4 lg:col-span-2">
-            <p className="text-xs font-mono font-medium uppercase tracking-[0.2em] text-[#A78BFA]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               COMPANY
             </p>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-xs sm:text-[13px]">
               {COMPANY.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-[#94A3B8] transition-colors duration-200 hover:text-white"
+                    className="text-black/70 font-normal transition-colors duration-200 hover:text-black"
                   >
                     {item.label}
                   </Link>
@@ -205,32 +164,29 @@ export default function Footer() {
 
           {/* Column 5: Contact */}
           <div className="space-y-4 sm:col-span-2 md:col-span-4 lg:col-span-2">
-            <p className="text-xs font-mono font-medium uppercase tracking-[0.2em] text-[#A78BFA]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               CONTACT
             </p>
-            <div className="space-y-3.5 text-sm">
+            <div className="space-y-3.5 text-xs sm:text-[13px]">
               <a
                 href="mailto:support@zinfell.com"
-                className="group inline-flex items-center gap-2 font-medium text-white transition-colors hover:text-[#A78BFA]"
+                className="group inline-flex items-center gap-2 font-normal text-black transition-colors hover:text-slate-700"
               >
-                <Mail className="h-4 w-4 text-[#A78BFA] transition-transform group-hover:scale-110" />
+                <Mail className="h-4 w-4 text-black/70 transition-transform group-hover:scale-110" />
                 <span>support@zinfell.com</span>
               </a>
 
               <div>
                 <Link
-                  href="#contact"
-                  className="group inline-flex items-center gap-1.5 text-xs font-medium text-white/90 transition-colors hover:text-[#A78BFA]"
+                  href="/contact"
+                  className="inline-flex items-center text-xs font-medium text-black transition-colors hover:text-slate-700"
+                  style={{ color: "#000000" }}
                 >
-                  <span>Start a Project</span>
-                  <ArrowRight
-                    className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1 text-[#A78BFA]"
-                    strokeWidth={2.2}
-                  />
+                  <span style={{ color: "#000000", WebkitTextFillColor: "#000000" }}>Start a Project</span>
                 </Link>
               </div>
 
-              <p className="text-xs leading-relaxed text-[#94A3B8]">
+              <p className="text-xs leading-relaxed text-black/55 font-normal">
                 Operating across India, UAE, and international markets.
               </p>
             </div>
@@ -238,20 +194,20 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar: Copyright & Legal */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 py-8 text-xs text-[#94A3B8] sm:flex-row">
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-black/10 py-8 text-xs text-black/55 sm:flex-row font-normal">
           <p>© 2026 Zinfell. All rights reserved.</p>
 
-          <div className="flex items-center gap-3 text-[#94A3B8]">
+          <div className="flex items-center gap-3 text-black/55">
             <Link
-              href="#privacy"
-              className="transition-colors hover:text-white"
+              href="/privacy"
+              className="text-black/60 transition-colors hover:text-black"
             >
               Privacy Policy
             </Link>
-            <span className="text-white/20">·</span>
+            <span className="text-black/20">·</span>
             <Link
-              href="#terms"
-              className="transition-colors hover:text-white"
+              href="/terms"
+              className="text-black/60 transition-colors hover:text-black"
             >
               Terms of Service
             </Link>
@@ -259,12 +215,12 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Giant Typography Brand Watermark at Bottom in Dark Mode */}
+      {/* Giant Typography Brand Watermark at Bottom in Light Mode */}
       <div
         className="pointer-events-none relative h-[7vw] select-none overflow-hidden text-center [mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)] sm:h-[8vw] lg:h-[9vw]"
         aria-hidden="true"
       >
-        <span className="block font-black tracking-[-0.05em] text-[11vw] leading-[0.8] text-white/[0.04] sm:text-[12.5vw] lg:text-[14vw]">
+        <span className="block font-black tracking-[-0.05em] text-[11vw] leading-[0.8] text-black/[0.04] sm:text-[12.5vw] lg:text-[14vw]">
           Zinfell
         </span>
       </div>

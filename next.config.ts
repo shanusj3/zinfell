@@ -4,6 +4,16 @@ const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
     agentFeedback: true,
+    agentUpgrade: "security",
+  },
+  async redirects() {
+    return [
+      {
+        source: "/solutions/:slug+",
+        destination: "/solutions",
+        permanent: false,
+      },
+    ];
   },
   cacheComponents: true,
   partialPrefetching: true,
